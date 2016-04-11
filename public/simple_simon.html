@@ -11,14 +11,15 @@
 
 <div id="black_box"></div>
 <div id= game_box>
-    <div id="0" class="red square"></div>
-    <div id="1" class="green square"></div>
-    <div id="2" class="yellow square" ></div>
-    <div id="3" class="blue square"></div>
+    <div id="red_box" class="red square"></div>
+    <div id="green_box" class="green square"></div>
+    <div id="yellow_box" class="yellow square" ></div>
+    <div id="blue_box" class="blue square"></div>
 </div>
 <div id="inner_circle"></div>
-<div>
-<h2 class="toggle">GAME OVER!!!!!!</h2>
+<div class="toggle">
+    <h2 >GAME OVER!!!!!!</h2>
+        <p>Press start to try again.</p>
 </div>
 
 <button id="start">START</button>
@@ -30,7 +31,6 @@
  "use strict"
 
     var $square = $('.square');
-    // var playerTurn = [];
     var simonClick;
     var playerClick;
 
@@ -59,7 +59,6 @@
         play();
     };
 
-
     // This fuction selects a random number then also sets it with my class tag 
     // Square to a variable of brightSquare. This then uses that variable to to select
     // that id and push it to the SimonClick array. 
@@ -67,10 +66,7 @@
         var random = Math.floor(Math.random() * 4);
         var brightSquare = $square[random];
         var id = brightSquare.id;
-            console.log(id);
         simonClick.push(id);
-            // console.log(simonClick);
-
     };
 
 
@@ -96,15 +92,15 @@
     function playBack () {
         for (var i = 0; i < playerClick.length; i++) {
             if (simonClick[i] != playerClick[i]){
-               $(".toggle").css('display', 'block');
-               simonClick = [];
+                $(".toggle").css('display', 'block');
+                simonClick = [];
                 $("#rounds").text("round: " + simonClick.length);
                 new Audio("/sound/losing.mp3").play();   
-               break;
+                break;
             }  
         }
             if (playerClick.length == simonClick.length){
-            simonTurn();
+                simonTurn();
             }
     }
         
@@ -114,11 +110,11 @@
 
     // This function lights up the squares chosen by the user or by simon
     function lightSquare (square) {
-           square.addClass("lightSquare");
+        square.addClass("lightSquare");
         setTimeout(function () {
             square.removeClass("lightSquare");
         }, 500);
-        var i = square.attr('id')
+        var i = (square.index());
         new Audio(baseUrl + audio[i]).play();
     };
 
@@ -128,7 +124,6 @@
         var playerPick = this.id;
         lightSquare($(this));
         playerClick.push(playerPick);
-        console.log(playerClick);
         playBack();
         };
 
